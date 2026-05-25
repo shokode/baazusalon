@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir -p /Users/shoko/Sync/code/github.com/shokode/baazusalon/.github/workflows)"
+    ],
+    "additionalDirectories": [
+      "/Users/shoko/Sync/code/github.com/shokode/baazusalon/.github"
+    ]
+  }
+}
