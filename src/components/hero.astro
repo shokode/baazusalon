@@ -1,0 +1,119 @@
+---
+const heroImages = Array.from(
+    { length: 14 },
+    (_, i) => `/img/hero/${i + 1}.jpg`,
+);
+const randomImage = heroImages[Math.floor(Math.random() * heroImages.length)];
+---
+
+<section class="hero">
+    <div class="hero__content">
+        <h1 class="hero__title">Even one millimeter<br />changes you.</h1>
+        <p class="hero__sub">
+            A salon specialized in short cuts — from 1 to 20 millimeters.<br
+            />See your length before you decide, and choose what's right for
+            your shape.
+        </p>
+        <div class="hero__cta">
+            <a href="#slider" class="btn btn--primary">Find your length</a>
+            <a href="#booking" class="btn btn--ghost">Book directly ➡︎</a>
+        </div>
+    </div>
+    <div class="hero__image">
+        <img id="hero-img-a" src={randomImage} alt="buzz cut portrait" />
+        <img id="hero-img-b" src={heroImages[1]} alt="buzz cut portrait" />
+    </div>
+</section>
+
+<style lang="scss">
+    .hero {
+        min-height: 100vh;
+        display: flex;
+        align-items: flex-start;
+        padding: 5rem 0 4rem 3rem;
+        overflow: hidden;
+    }
+    .hero__title {
+        font-family: "Recia", serif;
+        font-size: clamp(3rem, 7vw, 6rem);
+        line-height: 1.1;
+        margin-bottom: 1.5rem;
+    }
+    .hero__sub {
+        font-size: 1.1rem;
+        color: var(--color-muted);
+        line-height: 1.8;
+        max-width: 480px;
+        margin-bottom: 2.5rem;
+    }
+    .hero__cta {
+        display: flex;
+        gap: 1.5rem;
+        align-items: center;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+    .hero__content {
+        flex: 1;
+        max-width: 480px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .hero__image {
+        flex: 1.2;
+        margin-left: -4rem;
+        position: relative;
+        height: 85vh;
+        mask-image: linear-gradient(to right, transparent 0%, black 25%);
+
+        img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transition: opacity 0.6s ease;
+            border-radius: 2rem;
+
+            &#hero-img-b {
+                opacity: 0;
+            }
+        }
+    }
+</style>
+
+<script>
+    const images = Array.from(
+        { length: 14 },
+        (_, i) => `/img/hero/${i + 1}.jpg`,
+    );
+
+    images.forEach((src) => {
+        const preload = new Image();
+        preload.src = src;
+    });
+
+    let current = 0;
+    let showingA = true;
+
+    const imgA = document.getElementById("hero-img-a");
+    const imgB = document.getElementById("hero-img-b");
+
+    setInterval(() => {
+        current = (current + 1) % images.length;
+
+        if (showingA) {
+            imgB.src = images[current];
+            imgB.style.opacity = "1";
+            imgA.style.opacity = "0";
+        } else {
+            imgA.src = images[current];
+            imgA.style.opacity = "1";
+            imgB.style.opacity = "0";
+        }
+
+        showingA = !showingA;
+    }, 3000);
+</script>

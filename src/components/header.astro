@@ -1,0 +1,48 @@
+<header>
+    <a href="/" class="logo">båzu</a>
+    <nav class="lang-switcher">
+        <button data-lang="en">EN</button>
+        <button data-lang="no">NO</button>
+        <button data-lang="ja">JA</button>
+    </nav>
+</header>
+
+<style lang="scss">
+    header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.5rem 3rem;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 100;
+    }
+
+    .logo {
+        font-family: "Recia", serif;
+        font-size: 1.2rem;
+        color: var(--color-dark);
+        text-decoration: none;
+    }
+
+    .lang-switcher {
+        display: flex;
+        gap: 1rem;
+
+        button {
+            background: none;
+            border: none;
+            font-family: "Space Grotesk", sans-serif;
+            font-size: 0.85rem;
+            color: var(--color-muted);
+            cursor: pointer;
+            letter-spacing: 0.1em;
+
+            &:hover {
+                color: var(--color-dark);
+            }
+        }
+    }
+</style>
