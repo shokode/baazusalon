@@ -16,7 +16,7 @@
 
 body {
     background-color: var(--color-light);
-    background-image: url('/img/bg3s.png');
+    background-image: url("public/img/bg9.jpg");
     background-size: cover;
     // background-attachment: fixed;
     color: var(--color-dark);
@@ -31,17 +31,26 @@ body {
     font-size: 0.9rem;
     letter-spacing: 0.08em;
     text-decoration: none;
-    cursor: pointer;
-    transition: all 0.2s ease;
     border-radius: 999px;
+    box-sizing: border-box;
+    vertical-align: middle;
+    cursor: pointer;
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease;
+
 
 
     &--primary {
         background-color: var(--color-dark);
         color: var(--color-light);
+        border: 1px solid var(--color-dark-darks);
 
         &:hover {
-            background-color: var(--color-muted);
+            background-color: var(--color-accent);
+            color: var(--color-dark);
+            border: 1px solid var(--color-dark-accent);
         }
     }
 
@@ -52,9 +61,9 @@ body {
         padding: 0.85rem 2rem;
 
         &:hover {
-            border-color: var(--color-dark);
             background-color: var(--color-accent);
             color: var(--color-dark);
+            border: 1px solid var(--color-dark-accent);
         }
     }
 

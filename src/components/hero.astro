@@ -10,7 +10,7 @@ const randomImage = heroImages[Math.floor(Math.random() * heroImages.length)];
     <div class="hero__content">
         <h1 class="hero__title">Even one millimeter<br />changes you.</h1>
         <p class="hero__sub">
-            A salon specialized in short cuts — from 1 to 20 millimeters.<br
+            A salon specialized in short cuts, from 1 to 20 millimeters.<br
             />See your length before you decide, and choose what's right for
             your shape.
         </p>
@@ -29,13 +29,13 @@ const randomImage = heroImages[Math.floor(Math.random() * heroImages.length)];
     .hero {
         min-height: 100vh;
         display: flex;
-        align-items: flex-start;
-        padding: 5rem 0 4rem 3rem;
+        align-items: center;
+        padding: 5.5rem 0 4rem 5rem;
         overflow: hidden;
     }
     .hero__title {
         font-family: "Recia", serif;
-        font-size: clamp(3rem, 7vw, 6rem);
+        font-size: clamp(2.5rem, 6vw, 6rem);
         line-height: 1.1;
         margin-bottom: 1.5rem;
     }
@@ -48,7 +48,7 @@ const randomImage = heroImages[Math.floor(Math.random() * heroImages.length)];
     }
     .hero__cta {
         display: flex;
-        gap: 1.5rem;
+        gap: 1rem;
         align-items: center;
         margin-top: 1rem;
         margin-bottom: 1rem;
@@ -85,9 +85,10 @@ const randomImage = heroImages[Math.floor(Math.random() * heroImages.length)];
 </style>
 
 <script>
+    const base = import.meta.env.BASE_URL;
     const images = Array.from(
         { length: 14 },
-        (_, i) => `/img/hero/${i + 1}.jpg`,
+        (_, i) => `${base}img/hero/${i + 1}.jpg`,
     );
 
     images.forEach((src) => {
