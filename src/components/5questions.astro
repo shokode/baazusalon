@@ -1,0 +1,247 @@
+---
+const base = import.meta.env.BASE_URL;
+---
+
+<section class="section quiz">
+    <div class="container">
+        <div class="section-heading">
+            <p class="section-heading__label">Diagnostic</p>
+
+            <h2 class="section-heading__title">
+                Not sure? Find your length in 5 questions.
+            </h2>
+
+            <p class="section-heading__text">No commitment, just curiosity.</p>
+        </div>
+
+        <div class="quiz__card" data-quiz>
+            <p class="quiz__progress" data-quiz-progress>Question 1 of 5</p>
+
+            <h3 class="quiz__question" data-quiz-question>Why a buzz cut?</h3>
+
+            <div class="quiz__answers" data-quiz-answers>
+                <button type="button">A. To make a bold change</button>
+                <button type="button">B. For a clean, refreshed look</button>
+                <button type="button">C. As a fashion choice</button>
+                <button type="button">D. For low maintenance</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style lang="scss">
+    .quiz {
+        /* section自体には大きな個性をつけず、余白は .section に任せます */
+    }
+
+    .quiz__card {
+        max-width: 640px;
+        margin: 4rem auto 0;
+        padding: 3rem;
+        min-height: 460px;
+        border: 1px solid rgba(78, 54, 32, 0.18);
+        background-color: rgba(248, 244, 225, 0.72);
+    }
+
+    .quiz__progress {
+        margin-bottom: 3rem;
+        color: var(--color-muted);
+        font-size: 0.78rem;
+        letter-spacing: 0.14em;
+    }
+
+    .quiz__question {
+        max-width: 560px;
+        margin-inline: auto;
+        font-family: "Recia", serif;
+        font-size: clamp(1.6rem, 3vw, 2.8rem);
+        line-height: 1.15;
+        text-align: center;
+    }
+
+    .quiz__answers {
+        display: grid;
+        gap: 0.75rem;
+        max-width: 520px;
+        margin: 2.5rem auto 0;
+    }
+
+    /*
+       JSのinnerHTMLで後から作るbuttonにも効かせるため、
+       この部分だけ :global() を使います。
+    */
+    :global(.quiz__answer) {
+        appearance: none;
+        width: 100%;
+        padding: 1.1rem 0;
+        border: 0;
+        border-bottom: 1px solid rgba(78, 54, 32, 0.18);
+        border-radius: 0;
+        background: transparent;
+        color: var(--color-dark);
+        text-align: left;
+        cursor: pointer;
+        transition:
+            color 0.2s ease,
+            padding-left 0.2s ease,
+            border-color 0.2s ease;
+    }
+
+    :global(.quiz__answer:hover),
+    :global(.quiz__answer:focus-visible) {
+        color: var(--color-dark-accent);
+        padding-left: 0.5rem;
+        border-color: var(--color-dark-accent);
+        outline: none;
+    }
+
+    :global(.quiz__result-actions) {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1rem;
+        margin-top: 2.5rem;
+    }
+
+    :global(.quiz__result-label) {
+        display: block;
+        margin-bottom: 1rem;
+        color: var(--color-muted);
+        font-family: "Space Grotesk", sans-serif;
+        font-size: 0.78rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+    }
+
+    :global(.quiz__result-length) {
+        display: block;
+        font-family: "Recia", serif;
+        font-size: clamp(3rem, 5vw, 7rem);
+        line-height: 1;
+    }
+</style>
+
+<script>
+    const questions = [
+        {
+            question: "Why a buzz cut?",
+            answers: [
+                { text: "To make a bold change", score: 2 },
+                { text: "For a clean, refreshed look", score: 0 },
+                { text: "As a fashion choice", score: -2 },
+                { text: "For low maintenance", score: 2 },
+            ],
+        },
+        {
+            question: "Have you had a buzz cut before?",
+            answers: [
+                { text: "No, this would be my first time", score: 2 },
+                { text: "I've had very short hair before", score: 0 },
+                { text: "Yes, I've had one before", score: -2 },
+            ],
+        },
+        {
+            question: "How do you feel about the shape of your head?",
+            answers: [
+                { text: "Confident - I'd happily show it", score: 2 },
+                { text: "Neutral - doesn't bother me", score: 0 },
+                {
+                    text: "A bit unsure - I'd rather not emphasize it",
+                    score: -2,
+                },
+            ],
+        },
+        {
+            question: "Do you style your hair with products?",
+            answers: [
+                { text: "Rarely or never", score: 2 },
+                { text: "Sometimes", score: 0 },
+                { text: "Daily - I like to style it", score: -2 },
+            ],
+        },
+        {
+            question: "How often do you need a formal look?",
+            answers: [
+                { text: "Rarely - my environment is casual", score: 2 },
+                { text: "Sometimes", score: 0 },
+                { text: "Often - I need a polished appearance", score: -2 },
+            ],
+        },
+    ];
+
+    const questionEl = document.querySelector("[data-quiz-question]");
+    const progressEl = document.querySelector("[data-quiz-progress]");
+    const answersEl = document.querySelector("[data-quiz-answers]");
+
+    let currentQuestion = 0;
+    let score = 0;
+
+    function getRecommendedLength(score) {
+        if (score >= 8) return "1mm";
+        if (score >= 6) return "2mm";
+        if (score >= 4) return "3mm";
+        if (score >= 2) return "5mm";
+        if (score >= 0) return "10mm";
+        if (score >= -2) return "15mm";
+        return "20mm";
+    }
+
+    function renderQuestion() {
+        const current = questions[currentQuestion];
+
+        questionEl.textContent = current.question;
+        progressEl.textContent = `Question ${currentQuestion + 1} of ${questions.length}`;
+
+        answersEl.innerHTML = current.answers
+            .map((answer, index) => {
+                const label = String.fromCharCode(65 + index);
+
+                return `<button class="quiz__answer" type="button" data-score="${answer.score}">${label}. ${answer.text}</button>`;
+            })
+            .join("");
+    }
+
+    renderQuestion();
+
+    function renderResult() {
+        const recommendedLength = getRecommendedLength(score);
+
+        progressEl.textContent = "Result";
+        questionEl.innerHTML = `
+            <span class="quiz__result-label">Your recommended length</span>
+            <strong class="quiz__result-length">${recommendedLength}</strong>
+        `;
+
+        answersEl.innerHTML = `
+            <div class="quiz__result-actions">
+                <a class="btn btn--primary" href="#slider" data-see-slider>
+                    See it on the slider
+                </a>
+                <button class="btn btn--ghost" type="button" data-try-again>
+                    Try again
+                </button>
+            </div>
+        `;
+    }
+    answersEl.addEventListener("click", (event) => {
+        const clickedButton = event.target.closest("button");
+
+        if (!clickedButton) return;
+
+        if (clickedButton.hasAttribute("data-try-again")) {
+            currentQuestion = 0;
+            score = 0;
+            renderQuestion();
+            return;
+        }
+
+        score += Number(clickedButton.dataset.score);
+        currentQuestion += 1;
+
+        if (currentQuestion < questions.length) {
+            renderQuestion();
+        } else {
+            renderResult();
+        }
+    });
+</script>
