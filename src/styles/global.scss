@@ -1,11 +1,20 @@
+/* =========================================================
+   1. Design tokens
+   サイト全体で使う色をここにまとめます。
+   色を変えたい時は、まずここを見ると管理しやすいです。
+========================================================= */
 :root {
     --color-light: #F8F4E1;
     --color-dark: #4E3620;
-    --color-muted: #897853;
+    --color-muted: #676337;
     --color-accent: #C8EED9;
     --color-dark-accent: #c8963a;
 }
 
+/* =========================================================
+   2. Reset / base
+   ブラウザごとの初期スタイル差を少なくするための基本設定です。
+========================================================= */
 *,
 *::before,
 *::after {
@@ -14,16 +23,53 @@
     padding: 0;
 }
 
+/* ページ全体の背景・文字色・基本フォントを決めます。 */
 body {
     background-color: var(--color-light);
-    background-image: url("public/img/bg9.jpg");
+    background-image:
+        linear-gradient(rgba(248, 244, 225, 0.55),
+            rgba(248, 244, 225, 0.55)),
+        var(--site-bg);
     background-size: cover;
-    // background-attachment: fixed;
+    background-position: center;
+    background-attachment: fixed;
     color: var(--color-dark);
     font-family: 'Space Grotesk', sans-serif;
     line-height: 1.6;
 }
 
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+}
+
+button {
+    font: inherit;
+}
+
+/* =========================================================
+   3. Layout helpers
+   セクションの幅や余白を揃えるための共通クラスです。
+========================================================= */
+.container {
+    width: min(100% - 6rem, 1180px);
+    margin-inline: auto;
+}
+
+.section {
+    padding-block: clamp(6rem, 12vw, 10rem);
+}
+
+
+/* =========================================================
+   4. Shared components
+   複数の場所で使い回す共通パーツです。
+========================================================= */
 .btn {
     display: inline-block;
     padding: 0.85rem 2rem;
@@ -32,6 +78,7 @@ body {
     letter-spacing: 0.08em;
     text-decoration: none;
     border-radius: 999px;
+    border: 1px solid var(--color-dark-accent);
     box-sizing: border-box;
     vertical-align: middle;
     cursor: pointer;
@@ -40,31 +87,71 @@ body {
         color 0.2s ease,
         border-color 0.2s ease;
 
-
-
+    /* メインCTA用のボタンです。 */
     &--primary {
         background-color: var(--color-dark);
         color: var(--color-light);
-        border: 1px solid var(--color-dark-darks);
+        border-color: var(--color-dark);
 
         &:hover {
             background-color: var(--color-accent);
             color: var(--color-dark);
-            border: 1px solid var(--color-dark-accent);
+            border-color: var(--color-dark-accent);
         }
     }
 
+    /* 目立たせすぎないサブCTA用のボタンです。 */
     &--ghost {
         background: none;
         color: var(--color-dark);
-        border: 1px solid var(--color-muted);
+        border-color: var(--color-muted);
         padding: 0.85rem 2rem;
 
         &:hover {
             background-color: var(--color-accent);
             color: var(--color-dark);
-            border: 1px solid var(--color-dark-accent);
+            border-color: var(--color-dark-accent);
         }
     }
+}
 
+.section-heading {
+    max-width: 900px;
+    text-align: left;
+
+    &__label {
+        margin-bottom: 1rem;
+        color: var(--color-muted);
+        font-size: 0.78rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+    }
+
+    &__title {
+        font-family: "Recia", serif;
+        font-size: clamp(1.6rem, 3vw, 3.2rem);
+        line-height: 1.08;
+    }
+
+    &__text {
+        margin-top: 1rem;
+        color: var(--color-muted);
+        font-size: clamp(1rem, 2vw, 1.15rem);
+        line-height: 1.8;
+    }
+}
+
+.card {
+    padding: 3rem;
+    border: 1px solid rgba(78, 54, 32, 0.18);
+    background-color: rgba(248, 244, 225, 0.72);
+}
+
+
+
+// media query
+@media (max-width: 700px) {
+    .container {
+        width: min(100% - 1.5rem, 1180px);
+    }
 }
