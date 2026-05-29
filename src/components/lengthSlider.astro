@@ -1,5 +1,7 @@
 ---
 const base = import.meta.env.BASE_URL;
+
+const lengthSteps = ["1mm", "2mm", "3mm", "5mm", "10mm", "15mm", "20mm"];
 ---
 
 <section class="section length-slider" id="slider">
@@ -44,6 +46,19 @@ const base = import.meta.env.BASE_URL;
                     step="1"
                     data-length-range
                 />
+                <div class="length-slider__steps" data-length-steps>
+                    {
+                        lengthSteps.map((length, index) => (
+                            <button
+                                type="button"
+                                data-length-step={index}
+                                class={index === 2 ? "is-active" : ""}
+                            >
+                                {length}
+                            </button>
+                        ))
+                    }
+                </div>
 
                 <a class="btn btn--primary" href="#booking">
                     Book this length
@@ -97,6 +112,29 @@ const base = import.meta.env.BASE_URL;
     .length-slider__range {
         width: 100%;
         margin: 2rem 0;
+        accent-color: var(--color-dark-accent);
+    }
+    .length-slider__steps {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 0.5rem;
+        margin-bottom: 2rem;
+
+        button {
+            padding: 0.45rem 0.65rem;
+            border: 1px solid rgba(78, 54, 32, 0.18);
+            background: transparent;
+            color: var(--color-muted);
+            font: inherit;
+            font-size: 0.8rem;
+            cursor: pointer;
+        }
+
+        button.is-active {
+            border-color: var(--color-dark);
+            background-color: var(--color-dark);
+            color: var(--color-light);
+        }
     }
 </style>
 
@@ -143,6 +181,7 @@ const base = import.meta.env.BASE_URL;
     const valueEl = document.querySelector("[data-length-value]");
     const descriptionEl = document.querySelector("[data-length-description]");
     const rangeEl = document.querySelector("[data-length-range]");
+    const stepButtons = document.querySelectorAll("[data-length-step]");
 
     function renderLength(index) {
         const current = lengths[index];
@@ -151,10 +190,23 @@ const base = import.meta.env.BASE_URL;
         valueEl.textContent = current.label;
         descriptionEl.textContent = current.description;
         rangeEl.value = index;
+
+        stepButtons.forEach((button) => {
+            button.classList.toggle(
+                "is-active",
+                button.dataset.lengthStep === String(index),
+            );
+        });
     }
 
     rangeEl.addEventListener("input", () => {
         renderLength(Number(rangeEl.value));
+    });
+
+    stepButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+            renderLength(Number(button.dataset.lengthStep));
+        });
     });
 
     document.addEventListener("click", (event) => {
