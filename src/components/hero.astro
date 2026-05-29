@@ -8,11 +8,13 @@ const randomImage = heroImages[Math.floor(Math.random() * heroImages.length)];
 
 <section class="hero">
     <div class="hero__content">
-        <h1 class="hero__title">Even one millimeter<br />changes you.</h1>
+        <h1 class="hero__title">
+            One millimeter<br />changes the impression.
+        </h1>
         <p class="hero__sub">
-            A salon specialized in short cuts, from 1 to 20 millimeters.<br
-            />See your length before you decide, and choose what's right for
-            your shape.
+            Short cuts, measured from 1 to 20 millimeters.<br />
+            See your length before you decide.<br />
+            Choose what fits your shape.
         </p>
         <div class="hero__cta">
             <a href="#slider" class="btn btn--primary">Find your length</a>
@@ -35,17 +37,17 @@ const randomImage = heroImages[Math.floor(Math.random() * heroImages.length)];
     }
     .hero__title {
         font-family: "Recia", serif;
-        font-size: clamp(2.5rem, 6vw, 6rem);
+        font-size: clamp(2rem, 4vw, 4.6rem);
         line-height: 1.1;
         margin-bottom: 1.5rem;
     }
     .hero__sub {
-        font-size: 1.1rem;
-        color: var(--color-muted);
-        line-height: 1.8;
-        max-width: 480px;
-        margin-bottom: 2.5rem;
+        font-size: 1rem;
+        line-height: 1.85;
+        max-width: 430px;
+        margin-bottom: 2rem;
     }
+
     .hero__cta {
         display: flex;
         gap: 1rem;
