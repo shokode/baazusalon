@@ -19,9 +19,16 @@ const lengthSteps = ["1mm", "2mm", "3mm", "5mm", "10mm", "15mm", "20mm"];
         <div class="length-slider__layout">
             <div class="length-slider__image">
                 <img
+                    class="is-visible"
                     src={`${base}img/slider/bozu3.png`}
                     alt="Buzz cut length preview"
-                    data-length-image
+                    data-length-image-a
+                />
+                <img
+                    src={`${base}img/slider/bozu3.png`}
+                    alt=""
+                    aria-hidden="true"
+                    data-length-image-b
                 />
             </div>
 
@@ -60,7 +67,7 @@ const lengthSteps = ["1mm", "2mm", "3mm", "5mm", "10mm", "15mm", "20mm"];
                     }
                 </div>
 
-                <a class="btn btn--primary" href="#booking">
+                <a class="btn btn--primary" href="#booking" data-length-book>
                     Book this length
                 </a>
             </div>
@@ -78,15 +85,25 @@ const lengthSteps = ["1mm", "2mm", "3mm", "5mm", "10mm", "15mm", "20mm"];
     }
 
     .length-slider__image {
-        background-color: rgba(248, 244, 225, 0.72);
+        position: relative;
+        min-height: 520px;
         border: 1px solid rgba(78, 54, 32, 0.18);
-        padding: 3rem;
+        background-color: rgba(248, 244, 225, 0.72);
+    }
 
-        img {
-            width: 100%;
-            max-height: 640px;
-            object-fit: contain;
-        }
+    .length-slider__image img {
+        position: absolute;
+        inset: 3rem;
+        width: calc(100% - 6rem);
+        height: calc(100% - 6rem);
+        max-height: none;
+        object-fit: contain;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .length-slider__image img.is-visible {
+        opacity: 1;
     }
 
     .length-slider__value {
@@ -177,19 +194,28 @@ const lengthSteps = ["1mm", "2mm", "3mm", "5mm", "10mm", "15mm", "20mm"];
             description: "The longest of the short. Works anywhere.",
         },
     ];
-    const imageEl = document.querySelector("[data-length-image]");
+    const imageA = document.querySelector("[data-length-image-a]");
+    const imageB = document.querySelector("[data-length-image-b]");
     const valueEl = document.querySelector("[data-length-value]");
     const descriptionEl = document.querySelector("[data-length-description]");
     const rangeEl = document.querySelector("[data-length-range]");
+    const bookEl = document.querySelector("[data-length-book]");
     const stepButtons = document.querySelectorAll("[data-length-step]");
+    let showingA = true;
 
     function renderLength(index) {
         const current = lengths[index];
+        const visibleImage = showingA ? imageA : imageB;
+        const hiddenImage = showingA ? imageB : imageA;
 
-        imageEl.src = current.image;
+        hiddenImage.src = current.image;
+        hiddenImage.classList.add("is-visible");
+        visibleImage.classList.remove("is-visible");
         valueEl.textContent = current.label;
         descriptionEl.textContent = current.description;
         rangeEl.value = index;
+        showingA = !showingA;
+        bookEl.dataset.selectedLength = current.label;
 
         stepButtons.forEach((button) => {
             button.classList.toggle(
