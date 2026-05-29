@@ -117,7 +117,8 @@ button {
 
 .section-heading {
     max-width: 900px;
-    text-align: left;
+    margin-inline: auto;
+    text-align: center;
 
     &__label {
         margin-bottom: 1rem;

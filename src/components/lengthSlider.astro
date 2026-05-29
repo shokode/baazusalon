@@ -1,0 +1,174 @@
+---
+const base = import.meta.env.BASE_URL;
+---
+
+<section class="section length-slider" id="slider">
+    <div class="container">
+        <div class="section-heading">
+            <p class="section-heading__label">Length study</p>
+
+            <h2 class="section-heading__title">Find your length.</h2>
+
+            <p class="section-heading__text">
+                Slide to see how each millimeter changes the look.
+            </p>
+        </div>
+
+        <div class="length-slider__layout">
+            <div class="length-slider__image">
+                <img
+                    src={`${base}img/slider/bozu3.png`}
+                    alt="Buzz cut length preview"
+                    data-length-image
+                />
+            </div>
+
+            <div class="length-slider__controls">
+                <p class="length-slider__value" data-length-value>3mm</p>
+
+                <p class="length-slider__description" data-length-description>
+                    Classic and clean. The most popular choice.
+                </p>
+
+                <p class="length-slider__note">
+                    Around 6mm, the scalp is usually only subtly visible,
+                    depending on hair density.
+                </p>
+
+                <input
+                    class="length-slider__range"
+                    type="range"
+                    min="0"
+                    max="6"
+                    value="2"
+                    step="1"
+                    data-length-range
+                />
+
+                <a class="btn btn--primary" href="#booking">
+                    Book this length
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .length-slider__layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 320px;
+        gap: 4rem;
+        align-items: center;
+        margin-top: 4rem;
+    }
+
+    .length-slider__image {
+        background-color: rgba(248, 244, 225, 0.72);
+        border: 1px solid rgba(78, 54, 32, 0.18);
+        padding: 3rem;
+
+        img {
+            width: 100%;
+            max-height: 640px;
+            object-fit: contain;
+        }
+    }
+
+    .length-slider__value {
+        font-family: "Recia", serif;
+        font-size: clamp(3rem, 7vw, 5rem);
+        line-height: 1;
+    }
+
+    .length-slider__description {
+        margin-top: 1rem;
+        min-height: 3.6em;
+        color: var(--color-muted);
+        line-height: 1.8;
+    }
+
+    .length-slider__note {
+        margin-top: 1rem;
+        color: var(--color-muted);
+        font-size: 0.85rem;
+        line-height: 1.6;
+    }
+
+    .length-slider__range {
+        width: 100%;
+        margin: 2rem 0;
+    }
+</style>
+
+<script>
+    const base = import.meta.env.BASE_URL;
+    const lengths = [
+        {
+            label: "1mm",
+            image: `${base}img/slider/bozu1.png`,
+            description: "The boldest choice. Skin shows through.",
+        },
+        {
+            label: "2mm",
+            image: `${base}img/slider/bozu2.png`,
+            description: "Just a hint softer than 1mm.",
+        },
+        {
+            label: "3mm",
+            image: `${base}img/slider/bozu3.png`,
+            description: "Classic and clean. The most popular choice.",
+        },
+        {
+            label: "5mm",
+            image: `${base}img/slider/bozu4.png`,
+            description: "Short but soft. A safe first cut.",
+        },
+        {
+            label: "10mm",
+            image: `${base}img/slider/bozu5.png`,
+            description: "Buzz cut territory. Subtle and easy.",
+        },
+        {
+            label: "15mm",
+            image: `${base}img/slider/bozu6.png`,
+            description: "Short hair, still styled.",
+        },
+        {
+            label: "20mm",
+            image: `${base}img/slider/bozu7.png`,
+            description: "The longest of the short. Works anywhere.",
+        },
+    ];
+    const imageEl = document.querySelector("[data-length-image]");
+    const valueEl = document.querySelector("[data-length-value]");
+    const descriptionEl = document.querySelector("[data-length-description]");
+    const rangeEl = document.querySelector("[data-length-range]");
+
+    function renderLength(index) {
+        const current = lengths[index];
+
+        imageEl.src = current.image;
+        valueEl.textContent = current.label;
+        descriptionEl.textContent = current.description;
+        rangeEl.value = index;
+    }
+
+    rangeEl.addEventListener("input", () => {
+        renderLength(Number(rangeEl.value));
+    });
+
+    document.addEventListener("click", (event) => {
+        const trigger = event.target.closest("[data-see-slider]");
+
+        if (!trigger) return;
+
+        const targetLength = trigger.dataset.length;
+        const targetIndex = lengths.findIndex(
+            (item) => item.label === targetLength,
+        );
+
+        if (targetIndex === -1) return;
+
+        renderLength(targetIndex);
+    });
+</script>

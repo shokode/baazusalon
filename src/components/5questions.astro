@@ -267,7 +267,12 @@ const base = import.meta.env.BASE_URL;
 
         answersEl.innerHTML = `
             <div class="quiz__result-actions">
-                <a class="btn btn--primary" href="#slider" data-see-slider>
+                <a
+                    class="btn btn--primary"
+                    href="#slider"
+                    data-see-slider
+                    data-length="${recommendedLength}"
+                >
                     See it on the slider
                 </a>
                 <button class="btn btn--ghost" type="button" data-try-again>
