@@ -8,6 +8,7 @@ const randomImage = heroImages[Math.floor(Math.random() * heroImages.length)];
 
 <section class="hero">
     <div class="hero__content">
+        <p class="hero__eyebrow">båzu frisør</p>
         <h1 class="hero__title">
             One millimeter<br />changes the impression.
         </h1>
@@ -35,6 +36,15 @@ const randomImage = heroImages[Math.floor(Math.random() * heroImages.length)];
         padding: 5.5rem 0 4rem 5rem;
         overflow: hidden;
     }
+    .hero__eyebrow {
+        margin-bottom: 1.25rem;
+        color: var(--color-dark);
+        font-family: "Recia", serif;
+        font-size: clamp(1.5rem, 2vw, 2rem);
+        line-height: 1;
+        letter-spacing: 0;
+        text-transform: none;
+    }
     .hero__title {
         font-family: "Recia", serif;
         font-size: clamp(2rem, 4vw, 4.6rem);
@@ -60,6 +70,19 @@ const randomImage = heroImages[Math.floor(Math.random() * heroImages.length)];
         max-width: 480px;
         position: relative;
         z-index: 1;
+        &::before {
+            content: "坊主";
+            position: absolute;
+            top: -5rem;
+            left: -2rem;
+            z-index: -1;
+            color: rgba(78, 54, 32, 0.1);
+            font-family: serif;
+            font-size: clamp(7rem, 16vw, 14rem);
+            line-height: 1;
+            pointer-events: none;
+            white-space: nowrap;
+        }
     }
 
     .hero__image {
