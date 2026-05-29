@@ -16,6 +16,9 @@ const base = import.meta.env.BASE_URL;
 
         <div class="quiz__card" data-quiz>
             <p class="quiz__progress" data-quiz-progress>Question 1 of 5</p>
+            <div class="quiz__progress-bar" aria-hidden="true">
+                <span data-quiz-progress-bar></span>
+            </div>
 
             <h3 class="quiz__question" data-quiz-question>Why a buzz cut?</h3>
 
@@ -44,10 +47,25 @@ const base = import.meta.env.BASE_URL;
     }
 
     .quiz__progress {
-        margin-bottom: 3rem;
+        margin-bottom: 1rem;
         color: var(--color-muted);
         font-size: 0.78rem;
         letter-spacing: 0.14em;
+    }
+
+    .quiz__progress-bar {
+        height: 3px;
+        margin-bottom: 3rem;
+        overflow: hidden;
+        background-color: rgba(78, 54, 32, 0.1);
+    }
+
+    .quiz__progress-bar span {
+        display: block;
+        width: 20%;
+        height: 100%;
+        background-color: var(--color-dark);
+        transition: width 0.3s ease;
     }
 
     .quiz__question {
@@ -198,6 +216,7 @@ const base = import.meta.env.BASE_URL;
 
     const questionEl = document.querySelector("[data-quiz-question]");
     const progressEl = document.querySelector("[data-quiz-progress]");
+    const progressBarEl = document.querySelector("[data-quiz-progress-bar]");
     const answersEl = document.querySelector("[data-quiz-answers]");
 
     let currentQuestion = 0;
@@ -218,6 +237,7 @@ const base = import.meta.env.BASE_URL;
 
         questionEl.textContent = current.question;
         progressEl.textContent = `Question ${currentQuestion + 1} of ${questions.length}`;
+        progressBarEl.style.width = `${((currentQuestion + 1) / questions.length) * 100}%`;
 
         answersEl.innerHTML = current.answers
             .map((answer, index) => {
@@ -239,6 +259,7 @@ const base = import.meta.env.BASE_URL;
         const recommendedLength = getRecommendedLength(score);
 
         progressEl.textContent = "Result";
+        progressBarEl.style.width = "100%";
         questionEl.innerHTML = `
             <span class="quiz__result-label">Your recommended length</span>
             <strong class="quiz__result-length">${recommendedLength}</strong>
